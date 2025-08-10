@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/" element={<ChangePassword />} />
         <Route path="/success" element={<Success />} />
         <Route path="*" element={<Navigate to="/change-password" />} />
       </Routes>
