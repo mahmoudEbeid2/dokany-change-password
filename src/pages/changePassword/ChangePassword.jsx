@@ -5,17 +5,21 @@ import { z } from "zod";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const API_URL = "https://dokany-api-production.up.railway.app";
+const API_URL = "https://dokany-api.onrender.com";
 
 const changePasswordSchema = z
   .object({
-    newPassword: z.string()
+    newPassword: z
+      .string()
       .min(8, "Password must be at least 8 characters long")
       .max(50, "Password cannot exceed 50 characters")
       .regex(/[a-z]/, "Password must contain at least one lowercase letter")
       .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
       .regex(/[0-9]/, "Password must contain at least one digit")
-      .regex(/[^a-zA-Z0-9]/, "Password must contain at least one special character (e.g., !@#$%^&*)"),
+      .regex(
+        /[^a-zA-Z0-9]/,
+        "Password must contain at least one special character (e.g., !@#$%^&*)"
+      ),
     confirmPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
@@ -38,7 +42,6 @@ const ChangePassword = () => {
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -107,7 +110,14 @@ const ChangePassword = () => {
 
           <form onSubmit={handleSubmit} noValidate>
             {apiError && (
-              <p style={{ ...errorStyle, textAlign: "center", fontSize: "1rem", marginBottom: "1rem" }}>
+              <p
+                style={{
+                  ...errorStyle,
+                  textAlign: "center",
+                  fontSize: "1rem",
+                  marginBottom: "1rem",
+                }}
+              >
                 {apiError}
               </p>
             )}
@@ -122,7 +132,9 @@ const ChangePassword = () => {
                 onChange={handleChange}
                 placeholder="Enter new password"
               />
-              {errors.newPassword && <p style={errorStyle}>{errors.newPassword[0]}</p>}
+              {errors.newPassword && (
+                <p style={errorStyle}>{errors.newPassword[0]}</p>
+              )}
             </div>
 
             <div className={styles.inputGroup}>
@@ -135,7 +147,9 @@ const ChangePassword = () => {
                 onChange={handleChange}
                 placeholder="Confirm your password"
               />
-              {errors.confirmPassword && <p style={errorStyle}>{errors.confirmPassword[0]}</p>}
+              {errors.confirmPassword && (
+                <p style={errorStyle}>{errors.confirmPassword[0]}</p>
+              )}
             </div>
 
             <button
@@ -153,5 +167,3 @@ const ChangePassword = () => {
 };
 
 export default ChangePassword;
-
-
